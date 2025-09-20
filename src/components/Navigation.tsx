@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, Shield, AlertTriangle, Phone } from "lucide-react";
@@ -6,11 +7,13 @@ import { Menu, Shield, AlertTriangle, Phone } from "lucide-react";
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const location = useLocation();
+  
   const navItems = [
-    { name: "Training Modules", href: "#training" },
-    { name: "Dashboards", href: "#dashboards" },
-    { name: "Weather Alerts", href: "#weather" },
-    { name: "Reports", href: "#reports" },
+    { name: "Home", href: "/" },
+    { name: "Trainee Dashboard", href: "/trainee" },
+    { name: "Trainer Portal", href: "/trainer" },
+    { name: "Quiz", href: "/quiz" },
   ];
 
   return (
@@ -18,21 +21,23 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
+          <Link to="/" className="flex items-center space-x-3">
             <Shield className="w-8 h-8 text-primary" />
-            <span className="text-xl font-bold text-foreground">Emergency Training</span>
-          </div>
+            <span className="text-xl font-bold text-foreground">Surakshit Bharat</span>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.name}
-                href={item.href}
-                className="text-muted-foreground hover:text-primary transition-colors duration-200"
+                to={item.href}
+                className={`text-muted-foreground hover:text-primary transition-colors duration-200 ${
+                  location.pathname === item.href ? 'text-primary font-medium' : ''
+                }`}
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </div>
 
@@ -56,16 +61,18 @@ const Navigation = () => {
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-              <div className="flex flex-col space-y-6 mt-8">
+                <div className="flex flex-col space-y-6 mt-8">
                 {navItems.map((item) => (
-                  <a
+                  <Link
                     key={item.name}
-                    href={item.href}
-                    className="text-lg font-medium text-muted-foreground hover:text-primary transition-colors"
+                    to={item.href}
+                    className={`text-lg font-medium text-muted-foreground hover:text-primary transition-colors ${
+                      location.pathname === item.href ? 'text-primary font-medium' : ''
+                    }`}
                     onClick={() => setIsOpen(false)}
                   >
                     {item.name}
-                  </a>
+                  </Link>
                 ))}
                 <div className="pt-6 space-y-3">
                   <Button variant="emergency" className="w-full shadow-emergency">
